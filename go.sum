@@ -1,0 +1,4 @@
+github.com/dOpensource/hep v0.0.0-20250311040219-ca7e46c64a15 h1:BONaDWgDNyWvSEujMcCBa8nNTw1bgRMoELXnRswEoic=
+github.com/dOpensource/hep v0.0.0-20250311040219-ca7e46c64a15/go.mod h1:2Nyt5eAAuFJhLtt3e/fDdX/V8WfgENU3f/+lGLrgmjs=
+github.com/spaghetty/sip_parser v0.0.0-20151124094107-d589ff5af5ff h1:lvrDp2WUrvEWqyyKbr1Sk7lHI2g6VKdHw3IOpIK2Xdc=
+github.com/spaghetty/sip_parser v0.0.0-20151124094107-d589ff5af5ff/go.mod h1:G+Gu/l8KO77cpbLC6bZBt7S51hLzQEei0JBSRa0OfQk=
