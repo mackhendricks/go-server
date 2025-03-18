@@ -13,9 +13,22 @@ import (
 )
 
 const (
-	port       = "8080"
-	bufferSize = 4048
+	port            = "8080"
+	bufferSize      = 4048
+	DEFAULT_DB_HOST = "localhost:3306"
+	DEFAULT_DB_NAME = "go-server"
+	DEFAULT_DB_USER = "root"
+	DEFAULT_DB_PASS = ""
+	DEFAULT_DEBUG   = "false"
 )
+
+type CONFIG struct {
+	db_host string
+	db_name string
+	db_user string
+	db_pass string
+	debug   string
+}
 
 // HandleClient manages individual client connections
 func handleClient(conn net.Conn, wg *sync.WaitGroup) {
@@ -52,9 +65,52 @@ func handleClient(conn net.Conn, wg *sync.WaitGroup) {
 	buffer = nil
 }
 
+// Get Configuration from Environment Variables
+func getEnvionmentVariables() *CONFIG {
+
+	var config CONFIG
+
+	config.db_host = os.Getenv("DB_HOST")
+	if config.db_host == "" {
+		config.db_host = DEFAULT_DB_HOST
+	}
+
+	config.db_name = os.Getenv("DB_NAME")
+	if config.db_name == "" {
+		config.db_name = DEFAULT_DB_NAME
+	}
+
+	config.db_user = os.Getenv("DB_USER")
+	if config.db_user == "" {
+		config.db_user = DEFAULT_DB_USER
+	}
+
+	config.db_pass = os.Getenv("DB_PASS")
+	if config.db_pass == "" {
+		config.db_pass = DEFAULT_DB_PASS
+	}
+
+	config.debug = os.Getenv("DEBUG")
+	if config.debug == "" {
+		config.debug = DEFAULT_DEBUG
+
+	}
+
+	return &config
+}
+
 func main() {
 	// Optimize CPU usage
 	runtime.GOMAXPROCS(runtime.NumCPU())
+
+	// Print Environment Variable if DEBUG is enabled
+	config := getEnvionmentVariables()
+	if config.debug == "true" || config.debug == "TRUE" {
+		log.Printf("+Debug Enabled\n")
+		log.Printf("Environment Variables:\n")
+		log.Printf("-----------------------")
+		log.Printf("DB_HOST: %s\nDB_NAME: %s\nDB_USER: %s\nDB_PASS: %s", config.db_host, config.db_name, config.db_user, config.db_pass)
+	}
 
 	// Listen on TCP port
 	listener, err := net.Listen("tcp", ":"+port)
